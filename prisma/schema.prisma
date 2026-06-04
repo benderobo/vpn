@@ -1,0 +1,20 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Order {
+  id            Int      @id @default(autoincrement())
+  template      String
+  previews      String   // Storing JSON string for simplicity
+  questionnaire String   // Storing JSON string for simplicity
+  status        String   @default("pending")
+  createdAt     DateTime @default(now())
+}
