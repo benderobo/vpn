@@ -3,8 +3,9 @@ import { PrismaLibSql } from '@prisma/adapter-libsql';
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
+// Use environment variable or default to the prisma_data mapped volume
 const config = {
-  url: 'file:prisma/dev.db',
+  url: process.env.DATABASE_URL || 'file:prisma_data/dev.db',
 };
 
 const adapter = new PrismaLibSql(config);
