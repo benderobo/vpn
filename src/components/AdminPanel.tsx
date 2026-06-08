@@ -37,6 +37,8 @@ export default function AdminPanel({ initialOrders }: { initialOrders: Order[] }
 
       if (!res.ok) throw new Error("Failed to forward");
 
+
+
       // Update local state
       setOrders(orders.map(o => o.id === id ? { ...o, status: "forwarded" } : o));
       alert("Успешно отправлено агентам!");
@@ -61,8 +63,8 @@ export default function AdminPanel({ initialOrders }: { initialOrders: Order[] }
         </thead>
         <tbody className="divide-y divide-gray-200">
           {orders.map((order) => {
-            const quest = order.parsedQuestionnaire;
-            const previews = order.parsedPreviews;
+            const quest = JSON.parse(order.questionnaire || "{}");
+            const previews = JSON.parse(order.previews || "[]");
 
             return (
               <tr key={order.id} className="hover:bg-gray-50">
