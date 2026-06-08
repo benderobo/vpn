@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  insite-panel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: insite-panel
+    restart: always
+    ports:
+      # Формат: "ВНЕШНИЙ_ПОРТ:ВНУТРЕННИЙ_ПОРТ"
+      # Если порт 3000 занят на вашем сервере 194.87.18.116, измените левую часть,
+      # например, на "3001:3000" или "80:3000"
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=file:../prisma/dev.db
+      - N8N_WEBHOOK_URL=https://n8n.example.com/webhook/gemini-agent
+      - NODE_ENV=production
+    volumes:
+      # Прокидываем папку с базой данных на хост машину, чтобы данные не удалились при перезапуске контейнера
+      - ./prisma_data:/app/prisma
