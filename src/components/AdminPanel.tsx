@@ -11,8 +11,19 @@ type Order = {
   createdAt: string;
 };
 
+type ParsedOrder = Order & {
+  parsedQuestionnaire: { name?: string; details?: string };
+  parsedPreviews: string[];
+};
+
 export default function AdminPanel({ initialOrders }: { initialOrders: Order[] }) {
-  const [orders, setOrders] = useState<Order[]>(initialOrders);
+  const [orders, setOrders] = useState<ParsedOrder[]>(() => {
+    return initialOrders.map(order => ({
+      ...order,
+      parsedQuestionnaire: JSON.parse(order.questionnaire || "{}"),
+      parsedPreviews: JSON.parse(order.previews || "[]"),
+    }));
+  });
   const [loadingId, setLoadingId] = useState<number | null>(null);
 
   const forwardOrder = async (id: number) => {
